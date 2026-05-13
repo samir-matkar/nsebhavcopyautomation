@@ -1,12 +1,4 @@
-# make sure you're in the repo root
-Set-Location "C:\Samir\TechSamples\StockProgram\nsebhavcopyautomation"
-
-# create the workflows directory if missing
-New-Item -ItemType Directory -Path .github\workflows -Force | Out-Null
-
-# write the workflow file
-@'
-name: Daily NSE250 Auto
+﻿name: Daily NSE250 Auto
 on:
   schedule:
     # 20:35 IST -> 15:05 UTC
@@ -47,4 +39,3 @@ jobs:
           LOCAL_NIFTY250_CSV: 'nifty250.csv'
         run: |
           python main.py
-'@ | Out-File -FilePath .github\workflows\daily-nse.yml -Encoding utf8
