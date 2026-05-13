@@ -1,0 +1,50 @@
+# make sure you're in the repo root
+Set-Location "C:\Samir\TechSamples\StockProgram\nsebhavcopyautomation"
+
+# create the workflows directory if missing
+New-Item -ItemType Directory -Path .github\workflows -Force | Out-Null
+
+# write the workflow file
+@'
+name: Daily NSE250 Auto
+on:
+  schedule:
+    # 20:35 IST -> 15:05 UTC
+    - cron: '5 15 * * *'
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run NSE250Auto
+        env:
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          GSPREAD_SERVICE_ACCOUNT_JSON: ${{ secrets.GSPREAD_SERVICE_ACCOUNT_JSON }}
+          TOP_N: '250'
+          PCT_AWAY_FROM_52W: '12.0'
+          MA_FAST: '9'
+          MA_SLOW: '20'
+          EMA1: '9'
+          EMA2: '20'
+          EMA3: '50'
+          MIN_HISTORY_DAYS: '220'
+          BATCH_SIZE: '40'
+          BATCH_DELAY: '5'
+          LOCAL_NIFTY250_CSV: 'nifty250.csv'
+        run: |
+          python main.py
+'@ | Out-File -FilePath .github\workflows\daily-nse.yml -Encoding utf8
