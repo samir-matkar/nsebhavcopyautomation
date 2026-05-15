@@ -322,6 +322,7 @@ def write_to_sheet(universe_df: pd.DataFrame, breakouts_df: pd.DataFrame):
 
 def main():
     logger.info("Starting NSE250Auto job")
+    return;
     # 1) bhavcopy
     bhav = find_latest_bhavcopy(max_back_days=7)
     if bhav is None:
