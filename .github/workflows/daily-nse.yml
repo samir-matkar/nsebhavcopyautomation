@@ -1,8 +1,8 @@
 ﻿name: Daily NSE250 Auto
 on:
-  schedule:
-    # 20:35 IST -> 15:05 UTC
-    - cron: '5 15 * * *'
+  # schedule:
+  #   # 20:35 IST -> 15:05 UTC
+  #   - cron: '5 15 * * *'
   workflow_dispatch:
 
 jobs:
